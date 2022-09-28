@@ -1,5 +1,6 @@
 require "rake/testtask"
 require 'find'
+require "bundler/gem_tasks"
 
 desc 'Say hello'
 task :hello do
@@ -14,12 +15,11 @@ end
 desc 'Run tests'
 task :default => :test
 
-desc 'Run files except those that start with .'
-task :run_specific_files do 
-  Find.find("../todolist_project") do |path|
-    puts path
-    if !path.start_with?('.')
-      puts path if path.file?
+desc 'Print files that do not start with .'
+task :inventory do 
+  Find.find(".") do |path|
+    if !path.start_with?('./.') && File.file?(path)
+      puts path[2..-1]
     end
   end
 end
